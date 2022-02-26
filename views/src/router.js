@@ -1,0 +1,19 @@
+
+//这里只写了index，没有写扩展名.vue， 因为webpack会自动去找index.vue，这样我们的代码就显得比较简洁
+//import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue'
+const routes = [
+  // 定义一个数组，里面存放我们路由和组件的映射关系
+  {
+    path: '/', // 比如这里 / 表示根路由， 对应index这个组件
+    name: 'Home',
+    component: HelloWorld,
+  },
+  {
+    path: '/list',
+    name: 'test',
+    component: HelloWorld,
+  },
+]
+
+export default routes // 最后使用原生的js导出我们创建的router对象，方便在main.js中使用
