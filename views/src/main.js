@@ -4,8 +4,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import routes from './router'
 import VueRouter from 'vue-router'
+import axios from 'axios';
+import {get} from './utils/http.js'
+import {post} from './utils/http.js'
 Vue.use(VueRouter)
-
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+Vue.prototype.$get = get;
+Vue.prototype.$post = post;
 const router = new VueRouter({
   mode: 'history',
   routes

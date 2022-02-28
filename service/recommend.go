@@ -33,24 +33,26 @@ type MoneyTileList []struct {
 	ChangeHand    float64 `json:"换手率"`
 }
 
-func Filter_expensive_list()[]map[string]interface{}{
+func Filter_expensive_list() []map[string]interface{} {
 	var real_list []map[string]interface{}
-	real_list=make([]map[string]interface{},0)
-	list:=GetMoneyList();
-	if len(list)>0{
-		for _,v:=range list{
+	real_list = make([]map[string]interface{}, 0)
+	list := GetMoneyList()
+	if len(list) > 0 {
+		for _, g := range list {
+			v := g
 			//不考虑花费大于15的list
-			if v.Price>15{
-				continue;
+			if v.Price > 15 {
+				continue
 			}
-			v.Code=strings.Replace(v.Code,"SZ","",-1)
-			v.Code=strings.Replace(v.Code,"SH","",-1)
-			v.Code=strings.Replace(v.Code,"sz","",-1)
-			v.Code=strings.Replace(v.Code,"sh","",-1)
-			data:=GetMoneyRecommend(v.Code,v.Price);
-			data["Name"]=v.Name
-			data["NowPrice"]=v.Price
-			real_list=append(real_list,data)
+			v.Code = strings.Replace(v.Code, "SZ", "", -1)
+			v.Code = strings.Replace(v.Code, "SH", "", -1)
+			v.Code = strings.Replace(v.Code, "sz", "", -1)
+			v.Code = strings.Replace(v.Code, "sh", "", -1)
+			data := GetMoneyRecommend(v.Code, v.Price)
+			data["Name"] = v.Name
+			data["NowPrice"] = v.Price
+			data["symbol"] = v.Code
+			real_list = append(real_list, data)
 		}
 	}
 	return real_list
@@ -67,11 +69,11 @@ func GetMoneyList() MoneyList {
 func getPriceInfo(symbol string, last_day, today string) map[string]float64 {
 	res, _ := http.Get("http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=" + symbol + "&period=daily&start_date=" + last_day + "&end_date=" + today)
 	var money_time MoneyTileList
-	err:=json.NewDecoder(res.Body).Decode(&money_time)
+	err := json.NewDecoder(res.Body).Decode(&money_time)
 	var min_money, max_money float64
 	var response_data map[string]float64
 	response_data = make(map[string]float64)
-	fmt.Println(money_time,err,"http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=" + symbol + "&period=daily&start_date=" + last_day + "&end_date=" + today)
+	fmt.Println(money_time, err, "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol="+symbol+"&period=daily&start_date="+last_day+"&end_date="+today)
 	if len(money_time) > 0 {
 		for _, v := range money_time {
 			if v.MaxPrice >= max_money {
@@ -97,27 +99,31 @@ func GetMoneyRecommend(symbol string, price_now float64) map[string]interface{} 
 	//获取上周一
 	var response_data map[string]interface{}
 	response_data = make(map[string]interface{})
-	last_day := GetLastWeekFirstDate();
+	last_day := GetLastWeekFirstDate()
 	now := time.Now()
 	today := now.Format("20060102")
 	price_info := getPriceInfo(symbol, last_day, today)
 	//如果当前价格大于7日线 短线不可买入
 	if price_info["avg"] > price_now {
+		response_data["seven_status"] = 1
 		response_data["seven_msg"] = "当前价格在七日线低点可以买入"
 	} else {
+		response_data["seven_status"] = 0
 		response_data["seven_max_msg"] = "当前价格在七日线高点不可以买入"
 	}
 	response_data["seven_min_money"] = price_info["min_money"]
 	response_data["seven_max_money"] = price_info["max_money"]
 	response_data["seven_avg"] = price_info["avg"]
 
-	back_month := now.AddDate( 0, -1, 0 )
-	last_month := back_month.AddDate ( 0, -1, 0 )
+	back_month := now.AddDate(0, -1, 0)
+	last_month := back_month.AddDate(0, -1, 0)
 	tow_month_ago := last_month.Format("20060102")
 	price_info = getPriceInfo(symbol, tow_month_ago, today)
 	if price_info["avg"] > price_now {
+		response_data["month_status"] = 1
 		response_data["month_msg"] = "当前价格在2个月内低于平均值可以考虑买入"
 	} else {
+		response_data["month_status"] = 0
 		response_data["month_msg"] = "当前价格在2个月内高于平均值不推荐买入"
 	}
 	response_data["month_min_money"] = price_info["min_money"]
