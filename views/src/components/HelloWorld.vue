@@ -1,13 +1,5 @@
 <template>
   <div id="container">
-    <el-select v-model="symbol" placeholder="请选择">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
     <el-date-picker
       v-model="time_list"
       type="daterange"
@@ -40,34 +32,19 @@ function findMaxMin(data) {
   }
   return { max: maxObj, min: minObj };
 }
-window.onload=function(){
-}
 export default {
   name: "HelloWorld",
   data:function(){
     return {
-      options:[
-        {
-          value:"sz002550",
-          label:"制药"
-        },
-         {
-          value:"sh601868",
-          label:"中国能建"
-        },
-         {
-          value:"sz002060",
-          label:"粤水电"
-        },
-      ],
-      symbol:"sz002060",
       time_list:"",
       start_date:"",
       end_date:"",
+      time_id:null,
     }
 
   },
   mounted:function(){
+    window.clearInterval()
 var chart = new Chart({
   container: "main",
   autoFit: true,
@@ -92,7 +69,7 @@ chart.axis("时间", {
 
 chart.line().position("时间*收盘");
 let that=this;
-setInterval(function(){
+this.time_id=setInterval(function(){
   let thats=that;
   let start_date="";
   let end_date="";
@@ -109,7 +86,7 @@ setInterval(function(){
       d="0"+d;
     }
     console.log(y,m,d)
-    start_date=""+y+m+d;
+    start_date=""+y+"-"+m+"-"+d;
     console.log(start_date)
     dd.setDate(dd.getDate()+2);//获取AddDayCount天后的日期
      y = dd.getFullYear();
@@ -121,12 +98,12 @@ setInterval(function(){
       if(d<10){
       d="0"+d;
     }
-    end_date=""+y+m+d;
+    end_date=""+y+"-"+m+"-"+d;
   } else{
      start_date=thats.time_list[0];
      end_date=thats.time_list[1];
   }
-fetch("http://127.0.0.1:9090/", {
+fetch("http://127.0.0.1:9090/api/", {
   method: "POST",
   mode: "cors",
   body: JSON.stringify({ symbol: thats.symbol,start_date:start_date,end_date:end_date, }),
@@ -156,13 +133,16 @@ chart.annotation().dataMarker({
   },
 });
   });
-},2000)
+},5000)
 // console.log(data);
 // annotation
   chart.render();
   },
+  destroyed:function(){
+    window.clearInterval(this.time_id)
+  },
   props: {
-    msg: String,
+    symbol: String,
   },
 };
 

@@ -1,7 +1,7 @@
 <template>
 
   <div id="app">
-  <el-container style="height: 500px; border: 1px solid #eee">
+  <el-container style="height: 800px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1', '3']">
        <el-menu-item index="0">
@@ -60,6 +60,10 @@ export default {
 </script>
 
 <style>
+body{
+  height: 100%;
+  width: 100%;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -67,6 +71,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: 100%;
+  width: 100%;
 }
 .el-header {
     background-color: #B3C0D1;
