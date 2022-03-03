@@ -1,12 +1,14 @@
 package main
 
 import (
+	"get_price/corns"
 	"get_price/route"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func main() {
+	go corns.RegisterCrons()
 	r := gin.Default()
 	r.Use(Cors())
 	route.RegisterRoute(r)
