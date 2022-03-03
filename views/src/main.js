@@ -9,6 +9,8 @@ import {get} from './utils/http.js'
 import {post} from './utils/http.js'
 Vue.use(VueRouter)
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$get = get;
 Vue.prototype.$post = post;
 const router = new VueRouter({

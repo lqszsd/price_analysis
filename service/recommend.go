@@ -104,12 +104,12 @@ func GetMoneyRecommend(symbol string, price_now float64) map[string]interface{} 
 	today := now.Format("20060102")
 	price_info := getPriceInfo(symbol, last_day, today)
 	//如果当前价格大于7日线 短线不可买入
-	if price_info["avg"] > price_now {
+	if price_info["avg"] >= price_now {
 		response_data["seven_status"] = 1
 		response_data["seven_msg"] = "当前价格在七日线低点可以买入"
 	} else {
 		response_data["seven_status"] = 0
-		response_data["seven_max_msg"] = "当前价格在七日线高点不可以买入"
+		response_data["seven_msg"] = "当前价格在七日线高点不可以买入"
 	}
 	response_data["seven_min_money"] = price_info["min_money"]
 	response_data["seven_max_money"] = price_info["max_money"]
