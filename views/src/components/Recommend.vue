@@ -20,6 +20,12 @@
           <el-button @click="add_select(scope.row)" type="text" size="small"
             >加入自选</el-button
           >
+           <el-button @click="add_strategy(scope.row)" type="text" size="small"
+            >加入抄底</el-button
+          >
+              <el-button @click="view_notice(scope.row)" type="text" size="small"
+            >查看公告</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -39,33 +45,67 @@
     >
       <AddSelect :symbol="symbol" :price="price" :name="name"></AddSelect>
     </el-dialog>
+        <el-dialog
+      title="提示"
+      :visible.sync="add_strategy_dialog"
+      width="80%"
+      :before-close="handleClose"
+    >
+      <AddStrategy :symbol="symbol" :price="price" :name="name"></AddStrategy>
+    
+    </el-dialog>
+         <el-dialog
+      title="新闻"
+      :visible.sync="news_dialog"
+      width="80%"
+      :before-close="handleClose"
+    >
+
+     <NewsList :symbol="symbol"></NewsList>
+    </el-dialog>
   </div>
 </template>
 <script>
 import HelloWorld from "./HelloWorld.vue";
 import AddSelect from "./userselect/AddSelect.vue";
-
+import AddStrategy from "./strategy/AddStrategy.vue";
+import NewsList from "./news/NewsList.vue";
 export default {
   name: "Recommend",
   components: {
     HelloWorld,
     AddSelect,
+    AddStrategy,
+    NewsList,
   },
   data: function () {
     return {
       tableData: null,
       dialogVisible: false,
+      news_dialog:false,
       add_select_dialog: false,
+      add_strategy_dialog:false,
       symbol: "",
       price: "",
       name: "",
     };
   },
   methods: {
+    view_notice:function(row){
+      this.symbol = row.symbol;
+
+      this.news_dialog=true;
+    },
     handleClick: function (row) {
       console.log(row);
       this.dialogVisible = true;
       this.symbol = row.symbol;
+    },
+    add_strategy:function(row){
+       this.add_strategy_dialog = true;
+      this.symbol = row.symbol;
+      this.price = row.NowPrice;
+      this.name = row.Name;
     },
     add_select: function (row) {
       this.add_select_dialog = true;
@@ -74,8 +114,10 @@ export default {
       this.name = row.Name;
     },
     handleClose: function () {
+       this.news_dialog=false;
       this.dialogVisible = false;
-      this.add_select_dialog = false;
+      this.add_select_dialog=false;
+      this.add_strategy_dialog=false;
     },
   },
   mounted: function () {

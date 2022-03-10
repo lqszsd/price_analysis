@@ -78,6 +78,11 @@ body{
   height: 100%;
   width: 100%;
 }
+.el-table{
+
+width:99.9%
+
+}
 .el-header {
     background-color: #B3C0D1;
     color: #333;
