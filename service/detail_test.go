@@ -19,20 +19,24 @@ func TestDetailTest(t *testing.T) {
 func TestGetRedis(t *testing.T) {
 	var ctx = context.Background()
 	re := GetRedis()
-	Estimate := (6.22 - 6.12) * 100
+	Estimate := (6.68 - 6.450) * 100
 	mysql_model := model.SelectModel{
-		Symbol:       "002822",
-		Cost:         "6.22",
-		Price:        6.12,
-		Name:         "中装建设",
+		Symbol:       "601016",
+		Cost:         "5.30",
+		Price:        5.21,
+		Name:         "节能风电",
 		Shareholding: "100",
 		Estimate:     Estimate,
 	}
 	data, _ := json.Marshal(mysql_model)
-	err := re.Set(ctx, "002822", string(data), 0).Err()
+	err := re.Set(ctx, "601016", string(data), 0).Err()
 	fmt.Println(err)
-	err = re.HMSet(ctx, "my_select", "002822", "002822").Err()
-	re.HDel(ctx, "my_select", "601868")
+	err = re.HMSet(ctx, "my_select", "601016", "601016").Err()
+	re.HDel(ctx, "my_strategy", "002639")
+	re.HDel(ctx, "my_strategy", "002639-lq")
+	re.HDel(ctx, "my_strategy", "600490-lq-lq-lq")
+	re.HDel(ctx, "my_strategy", "600490-lq-lq")
+	re.HDel(ctx, "my_strategy", "600490-lq-lq")
 	//fmt.Println(re.LIndex(ctx,"test",0).Result())
 
 }

@@ -4,6 +4,7 @@
 import HotList from './components/HotList.vue'
 import Recommend from './components/Recommend.vue'
 import Test from './components/Test.vue'
+import StrategyList from './components/strategy/StrategyList.vue'
 const routes = [
   // 定义一个数组，里面存放我们路由和组件的映射关系
   {
@@ -20,6 +21,11 @@ const routes = [
     path: '/my_choose',
     name: 'test',
     component: Test,
+  },
+  {
+    path: '/my_strategy',
+    name: 'test',
+    component: StrategyList,
   },
 ]
 
