@@ -21,6 +21,8 @@
           >
                   <el-button @click="view_notice(scope.row)" type="text" size="small"
             >查看公告</el-button>
+                    <el-button @click="rm_select(scope.row)" type="text" size="small"
+            >移除自选</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,6 +65,13 @@ export default {
     };
   },
   methods: {
+    rm_select:function(row){
+      this.$get("/api/rm_select", {
+            symbol: row.Symbol,
+          }).then((data) => {
+            console.log(data);
+          });
+    },
      view_notice:function(row){
       this.symbol = row.Symbol;
 
@@ -136,7 +145,7 @@ export default {
         console.log(data);
         that.tableData = data;
       });
-    }, 5000);
+    }, 8000);
   },
 };
 </script>

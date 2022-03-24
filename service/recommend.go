@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"get_price/model"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -33,35 +34,52 @@ type MoneyTileList []struct {
 	ChangeHand    float64 `json:"换手率"`
 }
 
-func Filter_expensive_list() []map[string]interface{} {
+func Filter_expensive_list(status int) []map[string]interface{} {
 	var real_list []map[string]interface{}
 	real_list = make([]map[string]interface{}, 0)
-	list := GetMoneyList()
-	if len(list) > 0 {
-		for _, g := range list {
-			v := g
-			//不考虑花费大于15的list
-			if v.Price > 15 {
-				continue
+	if status == 0 {
+		list := GetMoneyList()
+		if len(list) > 0 {
+			for _, g := range list {
+				v := g
+				//不考虑花费大于15的list
+				if v.Price > 15 {
+					continue
+				}
+				v.Code = strings.Replace(v.Code, "SZ", "", -1)
+				v.Code = strings.Replace(v.Code, "SH", "", -1)
+				v.Code = strings.Replace(v.Code, "sz", "", -1)
+				v.Code = strings.Replace(v.Code, "sh", "", -1)
+				data := GetMoneyRecommend(v.Code, v.Price)
+				data["Name"] = v.Name
+				data["NowPrice"] = v.Price
+				data["symbol"] = v.Code
+				real_list = append(real_list, data)
 			}
-			v.Code = strings.Replace(v.Code, "SZ", "", -1)
-			v.Code = strings.Replace(v.Code, "SH", "", -1)
-			v.Code = strings.Replace(v.Code, "sz", "", -1)
-			v.Code = strings.Replace(v.Code, "sh", "", -1)
-			data := GetMoneyRecommend(v.Code, v.Price)
-			data["Name"] = v.Name
-			data["NowPrice"] = v.Price
-			data["symbol"] = v.Code
-			real_list = append(real_list, data)
 		}
 	}
 	return real_list
+}
+
+func Get_Page_Filter_expensive_list(page, limit int) model.Institutional {
+	list := GetALLMoneyList()
+	start := (page - 1) * limit
+	end := page * limit
+	return list[start:end]
 }
 
 func GetMoneyList() MoneyList {
 	resp, _ := http.Get("http://127.0.0.1:8080/api/public/stock_hot_rank_em")
 	by, _ := ioutil.ReadAll(resp.Body)
 	var money MoneyList
+	json.Unmarshal(by, &money)
+	return money
+}
+
+func GetALLMoneyList() model.Institutional {
+	resp, _ := http.Get("http://127.0.0.1:8080/api/public/stock_institute_recommend")
+	by, _ := ioutil.ReadAll(resp.Body)
+	var money model.Institutional
 	json.Unmarshal(by, &money)
 	return money
 }

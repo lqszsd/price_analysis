@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"get_price/model"
@@ -39,6 +40,18 @@ func AddSelect(c *gin.Context) {
 		return
 	}
 	response, _ := json.Marshal(Error(person))
+	c.String(200, string(response))
+	return
+}
+
+func RmSelect(c *gin.Context) {
+	symbol := c.Query("symbol")
+	var ctx = context.Background()
+	re := service.GetRedis()
+	re.HDel(ctx, "my_select", symbol, symbol)
+
+	data := Success(symbol)
+	response, _ := json.Marshal(Error(data))
 	c.String(200, string(response))
 	return
 }

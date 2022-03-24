@@ -20,6 +20,10 @@
         <i class="el-icon-menu"></i>
         <span slot="title"><router-link to="/my_strategy">我的策略</router-link></span>
       </el-menu-item>
+       <el-menu-item index="1">
+        <i class="el-icon-menu"></i>
+        <span slot="title"><router-link to="/all_recommend">机构推荐</router-link></span>
+      </el-menu-item>
     </el-menu>
   </el-aside>
   

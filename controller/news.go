@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"get_price/service/news"
 	"github.com/gin-gonic/gin"
 	"strings"
@@ -9,6 +10,7 @@ import (
 
 func NewList(c *gin.Context) {
 	symbol := c.DefaultQuery("symbol", "002060")
+	fmt.Println("444444444444", symbol)
 	symbol = strings.Replace(symbol, "SZ", "", -1)
 	symbol = strings.Replace(symbol, "SH", "", -1)
 	symbol = strings.Replace(symbol, "sz", "", -1)
