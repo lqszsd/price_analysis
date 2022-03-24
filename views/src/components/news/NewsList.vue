@@ -27,6 +27,15 @@ export default {
       name: "",
     };
   },
+  watch: {
+    symbol (val) {
+      var that = this;
+      this.$get("/api/news_list",{symbol:val}).then((data) => {
+      console.log(data);
+      that.tableData = data;
+    });
+    }
+  },
   methods: {
   },
     props: {
@@ -34,6 +43,7 @@ export default {
   },
   mounted: function () {
     var that = this;
+    console.log(this.symbol);
     this.$get("/api/news_list",{symbol:that.symbol}).then((data) => {
       console.log(data);
       that.tableData = data;

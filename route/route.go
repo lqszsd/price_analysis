@@ -17,5 +17,7 @@ func RegisterRoute(router *gin.Engine) {
 		v1.GET("/user_strategy", controller.UserStrategy)
 		v1.POST("/change_strategy_status", controller.ChangeStrategyStatus)
 		v1.GET("/news_list", controller.NewList)
+		v1.GET("/rm_select", controller.RmSelect)
+		v1.GET("/all_recommend", controller.AllSymbol)
 	}
 }

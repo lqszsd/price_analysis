@@ -35,7 +35,7 @@ func Index(c *gin.Context) {
 
 func Recommend(c *gin.Context) {
 	fmt.Println("??????????")
-	list := service.Filter_expensive_list()
+	list := service.Filter_expensive_list(0)
 	data, _ := json.Marshal(list)
 	c.String(200, string(data))
 }
