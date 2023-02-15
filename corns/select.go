@@ -29,9 +29,12 @@ func SelectData() {
 					start_time := time.Now().Add(-time.Minute * 10)
 					logDay := start_time.Format("2006-01-02")
 					now := nTime.Format("2006-01-02")
-					res, _ := http.Get("http://127.0.0.1:8080/api/public/stock_zh_a_hist_min_em?symbol=" + info.Symbol + "&period=15&start_date=" + logDay + "&end_date=" + now)
+					res, err := http.Get("http://127.0.0.1:8080/api/public/stock_zh_a_hist_min_em?symbol=" + info.Symbol + "&period=15&start_date=" + logDay + "&end_date=" + now)
 					fmt.Println("http://127.0.0.1:8080/api/public/stock_zh_a_hist_min_em?symbol=" + info.Symbol + "&period=15&start_date=" + logDay + "&end_date=" + now)
 					symbolList := model.SymbolList{}
+					if err != nil {
+						return
+					}
 					json.NewDecoder(res.Body).Decode(&symbolList)
 					if len(symbolList) > 0 {
 						info.Price = symbolList[len(symbolList)-1].End

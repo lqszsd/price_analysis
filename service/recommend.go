@@ -70,16 +70,22 @@ func Get_Page_Filter_expensive_list(page, limit int) model.Institutional {
 
 func GetMoneyList() MoneyList {
 	resp, _ := http.Get("http://127.0.0.1:8080/api/public/stock_hot_rank_em")
-	by, _ := ioutil.ReadAll(resp.Body)
+	by, err := ioutil.ReadAll(resp.Body)
 	var money MoneyList
+	if err != nil {
+		return money
+	}
 	json.Unmarshal(by, &money)
 	return money
 }
 
 func GetALLMoneyList() model.Institutional {
 	resp, _ := http.Get("http://127.0.0.1:8080/api/public/stock_institute_recommend")
-	by, _ := ioutil.ReadAll(resp.Body)
+	by, err := ioutil.ReadAll(resp.Body)
 	var money model.Institutional
+	if err != nil {
+		return money
+	}
 	json.Unmarshal(by, &money)
 	return money
 }
@@ -150,7 +156,8 @@ func GetMoneyRecommend(symbol string, price_now float64) map[string]interface{} 
 	return response_data
 }
 
-/**
+/*
+*
 获取本周周一的日期
 */
 func GetFirstDateOfWeek() (weekMonday string) {
@@ -166,7 +173,8 @@ func GetFirstDateOfWeek() (weekMonday string) {
 	return
 }
 
-/**
+/*
+*
 获取上周的周一日期
 */
 func GetLastWeekFirstDate() (weekMonday string) {

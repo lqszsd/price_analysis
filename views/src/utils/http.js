@@ -1,5 +1,6 @@
 import axios from 'axios';
-let BaseURl = 'http://127.0.0.1:9090';   
+//let BaseURl = 'http://127.0.0.1:9090';   
+let BaseURl = 'http://127.0.0.1:9090'
 // get post请求封装
 export function get(url, param) {
     return new Promise((resolve, reject) => {

@@ -6,6 +6,8 @@ import Recommend from './components/Recommend.vue'
 import Test from './components/Test.vue'
 import StrategyList from './components/strategy/StrategyList.vue'
 import RecommendAll from './components/recommend/RecommendAll.vue'
+import FundList from './components/fund/fund_list/fund_list.vue'
+import FundNew from './components/fund/fund_new/fund_new.vue'
 const routes = [
   // 定义一个数组，里面存放我们路由和组件的映射关系
   {
@@ -32,6 +34,16 @@ const routes = [
     path:"/all_recommend",
     name: 'test',
     component: RecommendAll,
+  },
+  {
+    path:"/fund_list",
+    name: 'test',
+    component: FundList,
+  },
+  {
+    path:"/fund_new",
+    name: 'test',
+    component: FundNew,
   }
 ]
 

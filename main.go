@@ -1,15 +1,58 @@
 package main
 
 import (
+	"embed"
 	"get_price/corns"
 	"get_price/route"
+	"get_price/service/fund"
 	"github.com/gin-gonic/gin"
+	"html/template"
 	"net/http"
 )
 
+//go:embed dist/css
+var css embed.FS
+
+//go:embed dist/css
+var js embed.FS
+
+//go:embed dist/css
+var fonts embed.FS
+
+//go:embed dist/index.html
+var html embed.FS
+
 func main() {
+
 	go corns.RegisterCrons()
+	go fund.Register_fund_data()
 	r := gin.Default()
+	tpl := template.Must(template.ParseFS(html, "dist/index.html"))
+	r.SetHTMLTemplate(tpl)
+	//r.Any("/js", func(c *gin.Context) {
+	//	staticServer := http.FileServer(http.FS(js))
+	//	staticServer.ServeHTTP(c.Writer, c.Request)
+	//})
+	//res,_:=css.ReadDir("css")
+	//data,_:=css.ReadFile("app.5a6ad033.css")
+	//fmt.Println(string(data),"读取文件信息",res)
+	//r.Any("/css", func(c *gin.Context) {
+	//	staticServer := http.FileServer(http.FS(css))
+	//	staticServer.ServeHTTP(c.Writer, c.Request)
+	//})
+	//r.StaticFS("/js", gin.DirByFile(http.FS(js), false))
+	//r.StaticFS("/css", http.FS(css))
+	//r.StaticFS("/js", http.FS(js))
+	r.Static("/css", "./dist/css")
+	r.Static("/js", "./dist/js")
+	r.Static("/fonts", "./dist/fonts")
+	r.Any("/fonts", func(c *gin.Context) {
+		staticServer := http.FileServer(http.FS(fonts))
+		staticServer.ServeHTTP(c.Writer, c.Request)
+	})
+	//r.StaticFS("/fonts", http.FS(fonts))
+
+	//r.Static("/js", "/views/dist/js")
 	r.Use(Cors())
 	route.RegisterRoute(r)
 	r.Run(":9090")

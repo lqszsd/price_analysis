@@ -1,5 +1,5 @@
 let api={
-    hot_list: '/api//hot/list',
+    hot_list: '/api/hot/list',
     recommend: `/api/recommend`,
     get_host: `/api/get_host`,
     add_host:`/api/add_host`,

@@ -16,7 +16,7 @@ func RegisterCrons() {
 	fmt.Println("启动定时任务")
 	corns.AddFunc("*/1 * * * *", SelectData)
 	corns.AddFunc("*/1 * * * *", CronStrategy)
-
+	corns.AddFunc("0 */4 * * * *", CronWechat)
 	corns.Start()
 
 }

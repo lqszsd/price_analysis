@@ -6,6 +6,6 @@ import (
 )
 
 func TestUpdate(t *testing.T) {
-	RegisterCrons()
+	CronWechat()
 	time.Sleep(time.Second * 100)
 }

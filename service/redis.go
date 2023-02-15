@@ -13,9 +13,9 @@ var re *redis.Client
 func GetRedis() *redis.Client {
 	if re == nil {
 		re = redis.NewClient(&redis.Options{
-			Addr:     "127.0.0.1:6379",
-			Password: "", // no password set
-			DB:       0,  // use default DB
+			Addr:     "114.116.77.103:6379",
+			Password: "lq123456789", // no password set
+			DB:       0,             // use default DB
 		})
 	}
 	return re

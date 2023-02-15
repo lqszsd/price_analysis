@@ -7,6 +7,7 @@ import (
 )
 
 func SetMail(nickname, subject, body string) {
+	return
 	// 邮箱地址
 	UserEmail := "1658616397@qq.com"
 	// 端口号，:25也行

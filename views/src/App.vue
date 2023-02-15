@@ -24,6 +24,14 @@
         <i class="el-icon-menu"></i>
         <span slot="title"><router-link to="/all_recommend">机构推荐</router-link></span>
       </el-menu-item>
+      <el-menu-item index="1">
+        <i class="el-icon-menu"></i>
+        <span slot="title"><router-link to="/fund_list">基金列表</router-link></span>
+      </el-menu-item>
+      <el-menu-item index="1">
+        <i class="el-icon-menu"></i>
+        <span slot="title"><router-link to="/fund_new">新发基金</router-link></span>
+      </el-menu-item>
     </el-menu>
   </el-aside>
   
