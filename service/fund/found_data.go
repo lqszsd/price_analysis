@@ -110,4 +110,5 @@ func Register_fund_data() {
 	go Fund_data_money()
 	go Fund_data_init()
 	go Fund_data_new()
+	//
 }
